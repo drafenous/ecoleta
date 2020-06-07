@@ -18,6 +18,7 @@ interface Point{
     id: number,
     name: string,
     image: string,
+    image_url: string,
     latitude: number,
     longitude: number,
 }
@@ -111,15 +112,14 @@ const Points = () => {
             <View style={styles.mapContainer}>
                 { initalPosition[0] !== 0 && (
                     <MapView style={styles.map} loadingEnabled={initalPosition[0] === 0} initialRegion={{latitude: initalPosition[0], longitude: initalPosition[1], latitudeDelta: 0.014, longitudeDelta: 0.014}}>
-                        {points.map(point => {
-                            // console.log(point.id, point.latitude, point.longitude, point.image, point.name)
+                        {points.map(point => (
                             <Marker key={String(point.id)} style={styles.mapMarker} onPress={() => handleNavitateToDetail(point.id) } coordinate={{latitude: point.latitude, longitude: point.longitude}}>
                                 <View style={styles.mapMarkerContainer}>
-                                    <Image style={styles.mapMarkerImage} source={{uri: point.image}} />
+                                    <Image style={styles.mapMarkerImage} source={{uri: point.image_url}} />
                                     <Text style={styles.mapMarkerTitle}>{point.name}</Text>
                                 </View>
                             </Marker>
-                        })}
+                        ))}
                     </MapView>
                 )}
             </View>
@@ -127,7 +127,7 @@ const Points = () => {
         <View style={styles.itemsContainer}>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 20}}>
                 {items.map(item => (
-                    <TouchableOpacity key={String(item.id)} style={[styles.item, selectedItems.includes(item.id) ? styles.selectedItem : []]} onPress={() => { handleSelectItem(item.id) }} activeOpacity={0.7}>
+                    <TouchableOpacity key={String(item.id)} style={[styles.item, selectedItems.includes(item.id) ? styles.selectedItem : []]} onPress={() => { handleSelectItem(item.id) }} activeOpacity={0.6}>
                         <SvgUri width={42} height={42} uri={item.image_url} />
                         <Text style={styles.itemTitle}>{item.title}</Text>
                     </TouchableOpacity>
